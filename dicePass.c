@@ -4,7 +4,7 @@
 #include <math.h>
 #include <string.h>
 
-int random(int max) {
+int randomValue(int max) {
  return (rand() % max); 
 }
 
@@ -13,7 +13,7 @@ void getWord(char* word) {
 
   int digits[5];
   for (i = 0; i < 5; ++i)
-    digits[i] = rollDie();
+    digits[i] = randomValue(5);
 
   int line = (digits[0] * pow(6, 4) + digits[1] * pow(6, 3) + digits[2] * pow(6, 2) + digits[3] * 6 + digits[4]) + 3;
 
@@ -33,7 +33,7 @@ int main() {
   for (int i = 0; i < 4; i++) {
     getWord(word);
     word[strlen(word) - 1] = 0;
-    printf("%s%d", &word[6], random(9));
+    printf("%s%d", &word[6], randomValue(10));
   }
   printf("\n");
   return 0;
