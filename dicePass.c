@@ -4,8 +4,8 @@
 #include <math.h>
 #include <string.h>
 
-int rollDie() {
- return (rand() % 6); 
+int random(int max) {
+ return (rand() % max); 
 }
 
 void getWord(char* word) {
@@ -33,7 +33,7 @@ int main() {
   for (int i = 0; i < 4; i++) {
     getWord(word);
     word[strlen(word) - 1] = 0;
-    printf("%s ", &word[6]);
+    printf("%s%d", &word[6], random(9));
   }
   printf("\n");
   return 0;
