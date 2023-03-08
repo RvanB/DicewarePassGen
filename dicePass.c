@@ -4,36 +4,51 @@
 #include <math.h>
 #include <string.h>
 
-int randomValue(int max) {
- return (rand() % max); 
-}
-
 void getWord(char* word) {
-  int i = 0;
+  // Create line number from dice rolls
+  int line = 0;
+  for (int i = 0; i < 5; ++i) {
+    int roll = rand() % 5;
+    line += roll * pow(6, 4 - i);
+  }
 
-  int digits[5];
-  for (i = 0; i < 5; ++i)
-    digits[i] = randomValue(5);
-
-  int line = (digits[0] * pow(6, 4) + digits[1] * pow(6, 3) + digits[2] * pow(6, 2) + digits[3] * 6 + digits[4]) + 3;
-
-  i = 0;
-
+  // Open word list
   FILE* file = fopen("diceware.wordlist.asc", "r");
-
+  
+  // Read word on line number
+  int i = 0;
   while (i < line) {
+    // Read up to newline character
     fgets(word, 20, file);
-    ++i;
+    i++;
   }
 }
 
-int main() {
+int main(int argc, char** argv) {
+  // Check if word count supplied
+  int wordCount = 4;
+  if (argc == 2) {
+    int val = atoi(argv[1]);
+    if (val) {
+      wordCount = val;
+    } else {
+      fprintf(stderr, "dicePass: Invalid word count \"%s\"", argv[1]);
+      return 1;
+    }
+  }
+  // Seed random with current time
   srand(time(0));
+
   char word[20];
-  for (int i = 0; i < 4; i++) {
+  for (int i = 0; i < wordCount; i++) {
+    // Store a new word in the buffer
     getWord(word);
+
+    // Add string terminator
     word[strlen(word) - 1] = 0;
-    printf("%s%d", &word[6], randomValue(10));
+
+    // Skip number before word
+    printf("%s ", &word[6]);
   }
   printf("\n");
   return 0;
